@@ -52,21 +52,6 @@ Went through a full code review: 15 critical bugs and 8 high-severity issues ide
 
 ---
 
-## The Roadmap
-
-These projects are a deliberate progression — not a collection of disconnected demos.
-
-```
-Student Management System     →    Trust-Aware Incident API    →    Next
-(Fundamentals without         →    (Production-grade REST API  →    (Cloud deployment,
- frameworks. Layered               with security, rate              distributed systems,
- architecture from                 limiting, and observability)     multi-service design)
- first principles)
-```
-
-Each project expands the scope. Each one is documented. Each one shows what was built, what was rejected, and why.
-
----
 
 ## Tech Stack
 
@@ -85,7 +70,9 @@ Each project expands the scope. Each one is documented. Each one shows what was 
 
 ## Currently Building
 
-Expanding toward cloud deployment, distributed system design, and multi-service architecture. The next project will build on the Trust API foundation — adding what was explicitly scoped out: scheduled batch jobs, Redis-cached trust scores, and IP-level rate limiting.
+Expanding 
+Working on cloud deployment architecture and distributed system design.
+Next project expands on the Trust API foundation.
 
 ---
 
