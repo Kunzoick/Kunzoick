@@ -1,48 +1,92 @@
-# Hi, I'm Kunzoick 
+# Kunzoick
 
-Java Backend Developer | Systems Thinker | AI-Oriented Builder
+**Java Backend Developer · Systems Thinker · Production-Minded Builder**
+
+> I don't just write code that works. I write code that I can explain — every decision, every tradeoff, every boundary.
 
 ---
 
-## About Me
+## How I Build
 
-Backend-focused Java developer building structured, production-minded systems.
+I start with the architecture before the code. I document what I rejected and why. I treat failure as a feature, not an edge case. I write systems that are honest about their limitations.
 
-I started with layered desktop architectures (Swing + MySQL) and I’m now transitioning toward Spring Boot–based backend services and distributed system design.
+Every project I build has a design document. Every design decision has a reason.
 
-Currently focused on:
-- Clean service-layer architecture
-- Multi-tenant data isolation (admin-scoped systems)
-- Secure authentication flows
-- GPA computation engines & grading logic
-- Reliability and transaction-safe data handling
-- AI-integrated backend features (planned)
+---
+
+## Projects
+
+### Trust-Aware Incident Intelligence API
+**Java 23 · Spring Boot 3.5 · MariaDB · Redis · JWT**
+
+A RESTful backend API where every request is evaluated not just by who the user is (role) but by how trustworthy their behavior has been (trust score). The two axes never mix — that boundary is the architectural core of the system.
+
+Built security-first: stateless JWT auth with reuse detection, Redis-backed behavioral rate limiting that fails open, correlation ID tracing on every request, and a trust score engine that is the single source of truth for all mutations.
+
+**What makes it worth reading:**
+- The Iron Rule — role and trust score are architecturally separated and never mixed
+- Token reuse detection that revokes entire token families atomically
+- Redis failure never denies a legitimate user — fail-open by design
+- Every known limitation is documented with the reason it was accepted
+
+→ [View Repository](https://github.com/Kunzoick/zoick-incident-api)
+
+---
+
+### Student Management System
+**Java 17 · Swing · JDBC · MySQL**
+
+A layered desktop application managing the full academic lifecycle of students across a multi-admin institution. No Spring. No ORM. Every dependency is wired manually — intentionally.
+
+This project exists to prove that I understand the fundamentals before the frameworks. Four strict layers: UI → Service → DAO → Database. SwingWorker threading contract enforced across 20 frames. Multi-tenant data isolation enforced at the SQL level on every query.
+
+Went through a full code review: 15 critical bugs and 8 high-severity issues identified and fixed. Every issue is documented with the root cause and the fix applied.
+
+**What makes it worth reading:**
+- Written justification for why no Spring, no Hibernate, no ORM
+- SwingWorker contract enforced — the EDT never blocks
+- adminId sentinel pattern eliminates an entire class of security bugs
+- Design tradeoffs documented honestly, including what is not yet solved
+
+→ [View Repository](#) *(coming soon)*
+
+---
+
+## The Roadmap
+
+These projects are a deliberate progression — not a collection of disconnected demos.
+
+```
+Student Management System     →    Trust-Aware Incident API    →    Next
+(Fundamentals without         →    (Production-grade REST API  →    (Cloud deployment,
+ frameworks. Layered               with security, rate              distributed systems,
+ architecture from                 limiting, and observability)     multi-service design)
+ first principles)
+```
+
+Each project expands the scope. Each one is documented. Each one shows what was built, what was rejected, and why.
 
 ---
 
 ## Tech Stack
-- Java (OOP, layered architecture)
-- MySQL (relational modeling, constraints, scoped queries)
-- Swing (desktop UI architecture)
-- Git (version control & workflow)
-- Backend system design fundamentals
+
+| Layer | Technologies |
+|---|---|
+| Language | Java 23, Java 17 |
+| Framework | Spring Boot 3.5 |
+| Database | MariaDB, MySQL |
+| Cache | Redis |
+| Auth | Spring Security, JWT |
+| Build | Maven |
+| Desktop | Swing, JDBC |
+| Tools | Flyway, Lombok, Spring Actuator |
 
 ---
 
-## Featured Project
+## Currently Building
 
-### Student Management System (Java Desktop Application)
+Expanding toward cloud deployment, distributed system design, and multi-service architecture. The next project will build on the Trust API foundation — adding what was explicitly scoped out: scheduled batch jobs, Redis-cached trust scores, and IP-level rate limiting.
 
-A layered backend-driven desktop system structured as:
-UI → Service Layer → DAO → Database (contains other helper code layers -> dto,utility and security)
+---
 
-Core features:
-- Admin PIN–based registration & access control
-- Weighted and unweighted GPA computation engine
-- Admin-defined grading scale system
-- Enrollment tracking with origin differentiation
-- Transaction-safe DAO operations
-- Role-based data isolation
-
-## 🔭 Currently Building
-Currently expanding toward REST APIs and Spring Boot migration and building apis 
+*Every repository has a README that explains the decisions. Every decision has a reason.*
