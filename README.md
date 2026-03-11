@@ -38,7 +38,7 @@ Built security-first: stateless JWT auth with reuse detection, Redis-backed beha
 
 A layered desktop application managing the full academic lifecycle of students across a multi-admin institution. No Spring. No ORM. Every dependency is wired manually — intentionally.
 
-This project exists to prove that I understand the fundamentals before the frameworks. Four strict layers: UI → Service → DAO → Database. SwingWorker threading contract enforced across 20 frames. Multi-tenant data isolation enforced at the SQL level on every query.
+Four strict layers: UI → Service → DAO → Database. SwingWorker threading contract enforced across 20 frames. Multi-tenant data isolation enforced at the SQL level on every query.
 
 Went through a full code review: 15 critical bugs and 8 high-severity issues identified and fixed. Every issue is documented with the root cause and the fix applied.
 
