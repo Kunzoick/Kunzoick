@@ -48,7 +48,7 @@ Went through a full code review: 15 critical bugs and 8 high-severity issues ide
 - adminId sentinel pattern eliminates an entire class of security bugs
 - Design tradeoffs documented honestly, including what is not yet solved
 
-→ [View Repository](#) *(coming soon)*
+→ → [View Repository](https://github.com/Kunzoick/student-management-system)
 
 ---
 
@@ -70,9 +70,7 @@ Went through a full code review: 15 critical bugs and 8 high-severity issues ide
 
 ## Currently Building
 
-Expanding 
-Working on cloud deployment architecture and distributed system design.
-Next project expands on the Trust API foundation.
+Async pipeline — distributed processing and event-driven architecture
 
 ---
 
