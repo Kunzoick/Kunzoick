@@ -1,20 +1,55 @@
 # Kunzoick
-
 **Java Backend Developer · Systems Thinker · Production-Minded Builder**
 
-> I don't just write code that works. I write code that I can explain — every decision, every tradeoff, every boundary.
+> I love writing code that I can explain — every decision, every tradeoff, every boundary.
 
 ---
 
 ## How I Build
 
-I start with the architecture before the code. I document what I rejected and why. I treat failure as a feature, not an edge case. I write systems that are honest about their limitations.
+I always start with the architecture before the code. I try to document what I rejected and possibly why. I treat failure as a feature, not an edge case. I also write on the system limitations.
 
 Every project I build has a design document. Every design decision has a reason.
 
 ---
 
 ## Projects
+
+### Student Management System
+**Java 17 · Swing · JDBC · MySQL**
+
+A layered desktop application managing the full academic lifecycle of students across a multi-admin institution. No Spring. No ORM. Every dependency is wired manually — intentionally.
+
+Four strict layers: UI → Service → DAO → Database. SwingWorker threading contract enforced across 20 frames. Multi-tenant data isolation enforced at the SQL level on every query.
+
+Went through a full code review: 15 critical bugs and 8 high-severity issues identified and fixed. Every issue is documented with the root cause and the fix applied.
+
+**What makes it worth reading:**
+- Written justification for why no Spring, no Hibernate, no ORM
+- SwingWorker contract enforced — the EDT never blocks
+- adminId sentinel pattern eliminates an entire class of security bugs
+- Design tradeoffs documented honestly, including what is not yet solved
+
+→ [View Repository](https://github.com/Kunzoick/student-management-system)
+
+---
+
+### Calculus API
+**Java 21 · Spring Boot 3.4 · Railway**
+
+A REST API that exposes a symbolic mathematics engine as HTTP endpoints. Differentiation, integration, and implicit differentiation — five endpoints, one deployed JAR, no math libraries.
+
+The engine was written from scratch: tokenizer, parser, AST, differentiator, integrator, simplifier, printer. The benchmark for correctness was a Pure Mathematics degree. The engine has zero Spring dependencies — the REST layer is a thin wrapper around it.
+
+**What makes it worth reading:**
+- Hand-coded recursive descent parser and AST — no external library
+- Engine is pure Java, testable in isolation without starting Spring
+- Variable exponents, inverse trig, and integration by parts all implemented
+- Live at: [calculus-api-production.up.railway.app](https://calculus-api-production.up.railway.app)
+
+→ [View Repository](https://github.com/Kunzoick/calculus-api)
+
+---
 
 ### Trust-Aware Incident Intelligence API
 **Java 23 · Spring Boot 3.5 · MariaDB · Redis · JWT**
@@ -33,36 +68,17 @@ Built security-first: stateless JWT auth with reuse detection, Redis-backed beha
 
 ---
 
-### Student Management System
-**Java 17 · Swing · JDBC · MySQL**
-
-A layered desktop application managing the full academic lifecycle of students across a multi-admin institution. No Spring. No ORM. Every dependency is wired manually — intentionally.
-
-Four strict layers: UI → Service → DAO → Database. SwingWorker threading contract enforced across 20 frames. Multi-tenant data isolation enforced at the SQL level on every query.
-
-Went through a full code review: 15 critical bugs and 8 high-severity issues identified and fixed. Every issue is documented with the root cause and the fix applied.
-
-**What makes it worth reading:**
-- Written justification for why no Spring, no Hibernate, no ORM
-- SwingWorker contract enforced — the EDT never blocks
-- adminId sentinel pattern eliminates an entire class of security bugs
-- Design tradeoffs documented honestly, including what is not yet solved
-
-→ → [View Repository](https://github.com/Kunzoick/student-management-system)
-
----
-
-
 ## Tech Stack
 
 | Layer | Technologies |
 |---|---|
-| Language | Java 23, Java 17 |
-| Framework | Spring Boot 3.5 |
+| Language | Java 23, Java 21, Java 17 |
+| Framework | Spring Boot 3.5, Spring Boot 3.4 |
 | Database | MariaDB, MySQL |
 | Cache | Redis |
 | Auth | Spring Security, JWT |
 | Build | Maven |
+| Deploy | Railway |
 | Desktop | Swing, JDBC |
 | Tools | Flyway, Lombok, Spring Actuator |
 
@@ -70,7 +86,7 @@ Went through a full code review: 15 critical bugs and 8 high-severity issues ide
 
 ## Currently Building
 
-Async pipeline — distributed processing and event-driven architecture
+Async pipeline — distributed processing and event-driven architecture.
 
 ---
 
