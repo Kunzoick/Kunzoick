@@ -39,7 +39,7 @@ Went through a full code review: 15 critical bugs and 8 high-severity issues ide
 
 A REST API that exposes a symbolic mathematics engine as HTTP endpoints. Differentiation, integration, and implicit differentiation — five endpoints, one deployed JAR, no math libraries.
 
-The engine was written from scratch: tokenizer, parser, AST, differentiator, integrator, simplifier, printer. The benchmark for correctness was a Pure Mathematics degree. The engine has zero Spring dependencies — the REST layer is a thin wrapper around it.
+The engine was written from scratch: tokenizer, parser, AST, differentiator, integrator, simplifier, printer. The engine has zero Spring dependencies — the REST layer is a thin wrapper around it.
 
 **What makes it worth reading:**
 - Hand-coded recursive descent parser and AST — no external library
