@@ -77,7 +77,7 @@ An async event-driven pipeline that consumes incident events published by the Tr
 -ProcessingWatchdog detects and recovers stuck records
 -Architecture Decision Records documenting every infrastructure choice
 
-→ [View Repository](
+→ [View Repository](https://github.com/Kunzoick/zoick-pipeline)
 
 ## Tech Stack
 
