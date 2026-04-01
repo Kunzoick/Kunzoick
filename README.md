@@ -52,21 +52,32 @@ The engine was written from scratch: tokenizer, parser, AST, differentiator, int
 ---
 
 ### Trust-Aware Incident Intelligence API
-**Java 23 · Spring Boot 3.5 · MariaDB · Redis · JWT**
+**Java 23 · Spring Boot 3.5 · MariaDB · Redis · JWT . RabbitMQ**
 
 A RESTful backend API where every request is evaluated not just by who the user is (role) but by how trustworthy their behavior has been (trust score). The two axes never mix — that boundary is the architectural core of the system.
 
 Built security-first: stateless JWT auth with reuse detection, Redis-backed behavioral rate limiting that fails open, correlation ID tracing on every request, and a trust score engine that is the single source of truth for all mutations.
+Outbox pattern implemented for reliable event publishing to RabbitMQ
 
 **What makes it worth reading:**
 - The Iron Rule — role and trust score are architecturally separated and never mixed
 - Token reuse detection that revokes entire token families atomically
 - Redis failure never denies a legitimate user — fail-open by design
-- Every known limitation is documented with the reason it was accepted
+- Transactional outbox pattern ensures no event are lost on failure
 
 → [View Repository](https://github.com/Kunzoick/zoick-incident-api)
-
 ---
+### Async Incident Processing Pipeline
+**Java 21 · Spring Boot · RabbitMQ · MySQL**
+An async event-driven pipeline that consumes incident events published by the Trust API. Implements the full distributed systems failure handling contract: retry logic with exponential backoff, dead letter queue, idempotency guards, and a watchdog for stuck processing records.
+
+**What makes it worth reading:**
+-Transactional outbox pattern on the producer side, idempotency on the consumer side
+-Dead letter queue with structured failure tracking
+-ProcessingWatchdog detects and recovers stuck records
+-Architecture Decision Records documenting every infrastructure choice
+
+→ [View Repository](
 
 ## Tech Stack
 
@@ -76,6 +87,7 @@ Built security-first: stateless JWT auth with reuse detection, Redis-backed beha
 | Framework | Spring Boot 3.5, Spring Boot 3.4 |
 | Database | MariaDB, MySQL |
 | Cache | Redis |
+| Messaging | RabbitMQ |
 | Auth | Spring Security, JWT |
 | Build | Maven |
 | Deploy | Railway |
@@ -86,7 +98,8 @@ Built security-first: stateless JWT auth with reuse detection, Redis-backed beha
 
 ## Currently Building
 
-Async pipeline — distributed processing and event-driven architecture.
+Multi-tenant secure API — role engine, tenant isolation, and contract workflow state machine.
+
 
 ---
 
