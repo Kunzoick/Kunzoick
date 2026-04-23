@@ -66,7 +66,9 @@ Outbox pattern implemented for reliable event publishing to RabbitMQ
 - Transactional outbox pattern ensures no event are lost on failure
 
 → [View Repository](https://github.com/Kunzoick/zoick-incident-api)
+
 ---
+
 ### Async Incident Processing Pipeline
 **Java 21 · Spring Boot · RabbitMQ · MySQL**
 An async event-driven pipeline that consumes incident events published by the Trust API. Implements the full distributed systems failure handling contract: retry logic with exponential backoff, dead letter queue, idempotency guards, and a watchdog for stuck processing records.
@@ -78,7 +80,9 @@ An async event-driven pipeline that consumes incident events published by the Tr
 -Architecture Decision Records documenting every infrastructure choice
 
 → [View Repository](https://github.com/Kunzoick/zoick-pipeline)
+
 ---
+
 ### Multi-Tenant Secure API
 **Java 21 · Spring Boot 3.5 · MariaDB · Redis · JWT · GitHub Actions**
 A production-grade multi-tenant REST API built contract-first. Every architectural decision is documented before implementation. Every phase has a completion gate. Every bug has a root cause and a fix on record.
@@ -95,7 +99,9 @@ GitHub Actions CI pipeline — all 39 tests run on every push to main
 10 Architecture Decision Records documenting every non-obvious choice
 16 bugs documented with root cause and fix applied
 
-→ View Repository
+→ [View Repository](https://github.com/Kunzoick/multitenant-api)
+
+---
 
 ## Tech Stack
 
