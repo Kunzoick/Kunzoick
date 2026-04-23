@@ -78,6 +78,24 @@ An async event-driven pipeline that consumes incident events published by the Tr
 -Architecture Decision Records documenting every infrastructure choice
 
 → [View Repository](https://github.com/Kunzoick/zoick-pipeline)
+---
+### Multi-Tenant Secure API
+**Java 21 · Spring Boot 3.5 · MariaDB · Redis · JWT · GitHub Actions**
+A production-grade multi-tenant REST API built contract-first. Every architectural decision is documented before implementation. Every phase has a completion gate. Every bug has a root cause and a fix on record.
+The core is structural security — tenant isolation enforced at the repository layer, not by convention. A single missed WHERE clause cannot leak data because there is no path to the database that bypasses the tenant scope predicate.
+
+**What makes it worth reading:**
+9-layer security stack — rate limiting through ORM immutability
+BaseRepository enforces tenant scope on every query structurally
+Pure domain workflow engine with zero Spring dependencies
+Immutable audit log — state change and audit entry are atomic or neither exists
+JWT revocation via Redis JTI blacklist with refresh token reuse detection
+39 automated tests against real MariaDB and Redis via Testcontainers
+GitHub Actions CI pipeline — all 39 tests run on every push to main
+10 Architecture Decision Records documenting every non-obvious choice
+16 bugs documented with root cause and fix applied
+
+→ View Repository
 
 ## Tech Stack
 
@@ -93,14 +111,10 @@ An async event-driven pipeline that consumes incident events published by the Tr
 | Deploy | Railway |
 | Desktop | Swing, JDBC |
 | Tools | Flyway, Lombok, Spring Actuator |
+| Testing | JUnits 5, Testcontainers |
+| CI | GitHub Actions |
 
 ---
 
-## Currently Building
-
-Multi-tenant secure API — role engine, tenant isolation, and contract workflow state machine.
-
-
----
 
 *Every repository has a README that explains the decisions. Every decision has a reason.*
