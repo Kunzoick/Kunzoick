@@ -26,7 +26,8 @@ Found and fixed a real one during deployment: a `clearAutomatically` cache-clear
 - 15 ADRs, a bug log with root causes, both written after the fact from what actually shipped
 - Live at barncart-frontend.vercel.app · backend on Render, DB on Aiven
 
-→ View Repository
+→ Frontend: https://github.com/Kunzoick/barncart-frontend
+→ Backend: https://github.com/Kunzoick/barncart-backend
 
 ### Multi-Tenant Secure API
 Java 21 · Spring Boot 3.5 · MariaDB · Redis · JWT · GitHub Actions
@@ -38,7 +39,7 @@ Tenant isolation enforced at the repository layer, not by convention — there's
 - 39 tests against real MariaDB and Redis via Testcontainers, run on every push
 - 10 ADRs, 16 bugs logged with root cause and fix
 
-→ View Repository
+→ View Repository: https://github.com/Kunzoick/multitenant-api
 
 ### Trust-Aware Incident Intelligence API
 Java 23 · Spring Boot 3.5 · MariaDB · Redis · JWT · RabbitMQ
@@ -49,7 +50,7 @@ Every request gets evaluated on two separate axes — who the user is, and how t
 - Redis-backed rate limiting that fails open — a Redis outage doesn't lock out legitimate users
 - Transactional outbox pattern for RabbitMQ, so nothing gets lost mid-publish
 
-→ View Repository
+→ View Repository: https://github.com/Kunzoick/zoick-incident-api
 
 ### Async Incident Processing Pipeline
 Java 21 · Spring Boot · RabbitMQ · MySQL
@@ -60,7 +61,7 @@ Consumes the events the Trust API publishes. Handles the usual distributed-syste
 - Watchdog process that finds and recovers stuck records
 - ADRs for the infrastructure choices, not just the code
 
-→ View Repository
+→ View Repository: https://github.com/Kunzoick/zoick-pipeline
 
 ### Calculus API
 Java 21 · Spring Boot 3.4 · Railway
@@ -73,7 +74,7 @@ Tokenizer, parser, AST, differentiator, integrator, simplifier, printer — all 
 - Handles variable exponents, inverse trig, integration by parts
 - Live at calculus-api-production.up.railway.app
 
-→ View Repository
+→ View Repository: https://github.com/Kunzoick/calculus-api
 
 ### Student Management System
 Java 17 · Swing · JDBC · MySQL
@@ -87,7 +88,7 @@ Four layers, strictly kept apart: UI → Service → DAO → Database. SwingWork
 - Multi-tenant isolation enforced at the SQL level on every query
 - What's not solved yet is written down too, not just what is
 
-→ View Repository
+→ View Repository: https://github.com/Kunzoick/student-management-system
 
 ## Tech Stack
 
