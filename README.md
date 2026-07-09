@@ -1,107 +1,93 @@
 # Kunzoick
-**Java Backend Developer · Systems Thinker · Production-Minded Builder**
 
-> I love writing code that I can explain — every decision, every tradeoff, every boundary.
+Java Backend Developer · Systems Thinker · Production-Minded Builder
 
----
+I like writing code I can explain later — the decision, the tradeoff, the thing I chose not to do. Most of what's here reflects that more than anything else.
 
 ## How I Build
 
-I always start with the architecture before the code. I try to document what I rejected and possibly why. I treat failure as a feature, not an edge case. I also write on the system limitations.
+Architecture before code, mostly. I try to write down what I rejected, not just what I kept. Failure paths get treated like a feature that needs designing, not something to patch later. If a system has a limit, I'd rather it be written down somewhere than discovered by someone else.
 
-Every project I build has a design document. Every design decision has a reason.
-
----
+Every project here has a design document. Every decision in it has a reason attached, even the boring ones.
 
 ## Projects
 
-### Student Management System
-**Java 17 · Swing · JDBC · MySQL**
+### BarnCart
+Spring Boot 3.5 · React · MySQL · Stripe · Docker
 
-A layered desktop application managing the full academic lifecycle of students across a multi-admin institution. No Spring. No ORM. Every dependency is wired manually — intentionally.
+A farm-to-customer e-commerce platform, built and deployed end to end — auth, cart, checkout, delivery scheduling, disputes, an admin panel, the works.
 
-Four strict layers: UI → Service → DAO → Database. SwingWorker threading contract enforced across 20 frames. Multi-tenant data isolation enforced at the SQL level on every query.
+Two-phase checkout keeps the Stripe call outside the database transaction. Slot booking happens at reservation, not payment, so two people can't claim the same delivery window. WebSocket events only fire after commit, so the frontend never shows a state that didn't actually happen in the database.
 
-Went through a full code review: 15 critical bugs and 8 high-severity issues identified and fixed. Every issue is documented with the root cause and the fix applied.
+Found and fixed a real one during deployment: a `clearAutomatically` cache-clear on an atomic stock query was silently dropping order items mid-checkout — only the last item in a multi-item cart ever made it to the database, no exception, nothing in the logs to suggest it. Root-caused with a direct DB query rather than trusting the application logs, then traced the fix into six other places that had quietly depended on the same wrong assumption.
 
-**What makes it worth reading:**
-- Written justification for why no Spring, no Hibernate, no ORM
-- SwingWorker contract enforced — the EDT never blocks
-- adminId sentinel pattern eliminates an entire class of security bugs
-- Design tradeoffs documented honestly, including what is not yet solved
+- Two-phase checkout, atomic stock deduction, ID-passing pattern for schedulers
+- httpOnly refresh cookies, in-memory access tokens, real logout
+- 15 ADRs, a bug log with root causes, both written after the fact from what actually shipped
+- Live at barncart-frontend.vercel.app · backend on Render, DB on Aiven
 
-→ [View Repository](https://github.com/Kunzoick/student-management-system)
-
----
-
-### Calculus API
-**Java 21 · Spring Boot 3.4 · Railway**
-
-A REST API that exposes a symbolic mathematics engine as HTTP endpoints. Differentiation, integration, and implicit differentiation — five endpoints, one deployed JAR, no math libraries.
-
-The engine was written from scratch: tokenizer, parser, AST, differentiator, integrator, simplifier, printer. The engine has zero Spring dependencies — the REST layer is a thin wrapper around it.
-
-**What makes it worth reading:**
-- Hand-coded recursive descent parser and AST — no external library
-- Engine is pure Java, testable in isolation without starting Spring
-- Variable exponents, inverse trig, and integration by parts all implemented
-- Live at: [calculus-api-production.up.railway.app](https://calculus-api-production.up.railway.app)
-
-→ [View Repository](https://github.com/Kunzoick/calculus-api)
-
----
-
-### Trust-Aware Incident Intelligence API
-**Java 23 · Spring Boot 3.5 · MariaDB · Redis · JWT . RabbitMQ**
-
-A RESTful backend API where every request is evaluated not just by who the user is (role) but by how trustworthy their behavior has been (trust score). The two axes never mix — that boundary is the architectural core of the system.
-
-Built security-first: stateless JWT auth with reuse detection, Redis-backed behavioral rate limiting that fails open, correlation ID tracing on every request, and a trust score engine that is the single source of truth for all mutations.
-Outbox pattern implemented for reliable event publishing to RabbitMQ
-
-**What makes it worth reading:**
-- The Iron Rule — role and trust score are architecturally separated and never mixed
-- Token reuse detection that revokes entire token families atomically
-- Redis failure never denies a legitimate user — fail-open by design
-- Transactional outbox pattern ensures no event are lost on failure
-
-→ [View Repository](https://github.com/Kunzoick/zoick-incident-api)
-
----
-
-### Async Incident Processing Pipeline
-**Java 21 · Spring Boot · RabbitMQ · MySQL**
-An async event-driven pipeline that consumes incident events published by the Trust API. Implements the full distributed systems failure handling contract: retry logic with exponential backoff, dead letter queue, idempotency guards, and a watchdog for stuck processing records.
-
-**What makes it worth reading:**
--Transactional outbox pattern on the producer side, idempotency on the consumer side
--Dead letter queue with structured failure tracking
--ProcessingWatchdog detects and recovers stuck records
--Architecture Decision Records documenting every infrastructure choice
-
-→ [View Repository](https://github.com/Kunzoick/zoick-pipeline)
-
----
+→ View Repository
 
 ### Multi-Tenant Secure API
-**Java 21 · Spring Boot 3.5 · MariaDB · Redis · JWT · GitHub Actions**
-A production-grade multi-tenant REST API built contract-first. Every architectural decision is documented before implementation. Every phase has a completion gate. Every bug has a root cause and a fix on record.
-The core is structural security — tenant isolation enforced at the repository layer, not by convention. A single missed WHERE clause cannot leak data because there is no path to the database that bypasses the tenant scope predicate.
+Java 21 · Spring Boot 3.5 · MariaDB · Redis · JWT · GitHub Actions
 
-**What makes it worth reading:**
-9-layer security stack — rate limiting through ORM immutability
-BaseRepository enforces tenant scope on every query structurally
-Pure domain workflow engine with zero Spring dependencies
-Immutable audit log — state change and audit entry are atomic or neither exists
-JWT revocation via Redis JTI blacklist with refresh token reuse detection
-39 automated tests against real MariaDB and Redis via Testcontainers
-GitHub Actions CI pipeline — all 39 tests run on every push to main
-10 Architecture Decision Records documenting every non-obvious choice
-16 bugs documented with root cause and fix applied
+Tenant isolation enforced at the repository layer, not by convention — there's no code path to the database that skips the tenant scope predicate, so a missed `WHERE` clause can't leak data by accident.
 
-→ [View Repository](https://github.com/Kunzoick/multitenant-api)
+- 9-layer security stack, rate limiting through ORM immutability
+- JWT revocation via Redis JTI blacklist, refresh token reuse detection
+- 39 tests against real MariaDB and Redis via Testcontainers, run on every push
+- 10 ADRs, 16 bugs logged with root cause and fix
 
----
+→ View Repository
+
+### Trust-Aware Incident Intelligence API
+Java 23 · Spring Boot 3.5 · MariaDB · Redis · JWT · RabbitMQ
+
+Every request gets evaluated on two separate axes — who the user is, and how trustworthy their behavior has been. Those two things are kept structurally apart on purpose; that boundary is most of the point of the system.
+
+- Stateless JWT with reuse detection, entire token families revoked atomically
+- Redis-backed rate limiting that fails open — a Redis outage doesn't lock out legitimate users
+- Transactional outbox pattern for RabbitMQ, so nothing gets lost mid-publish
+
+→ View Repository
+
+### Async Incident Processing Pipeline
+Java 21 · Spring Boot · RabbitMQ · MySQL
+
+Consumes the events the Trust API publishes. Handles the usual distributed-systems list — retries with backoff, a dead letter queue, idempotency, a watchdog for anything that gets stuck.
+
+- Outbox on the producer side, idempotency on the consumer side
+- Watchdog process that finds and recovers stuck records
+- ADRs for the infrastructure choices, not just the code
+
+→ View Repository
+
+### Calculus API
+Java 21 · Spring Boot 3.4 · Railway
+
+A symbolic math engine exposed over five HTTP endpoints — differentiation, integration, implicit differentiation. No math library underneath any of it.
+
+Tokenizer, parser, AST, differentiator, integrator, simplifier, printer — all written from scratch. The engine doesn't know Spring exists; the REST layer is a thin wrapper around something that's fully testable on its own.
+
+- Hand-written recursive descent parser and AST
+- Handles variable exponents, inverse trig, integration by parts
+- Live at calculus-api-production.up.railway.app
+
+→ View Repository
+
+### Student Management System
+Java 17 · Swing · JDBC · MySQL
+
+A layered desktop app for managing students across a multi-admin institution. No Spring, no ORM — everything wired by hand, on purpose, mostly to understand what those frameworks are usually doing for you.
+
+Four layers, strictly kept apart: UI → Service → DAO → Database. SwingWorker contract enforced across 20 frames so the EDT never blocks. Went through a full review afterward — 15 critical and 8 high-severity issues found, each one written up with root cause and fix.
+
+- Written justification for skipping Spring/Hibernate/ORM entirely
+- `adminId` sentinel pattern closes off a whole category of security bugs
+- Multi-tenant isolation enforced at the SQL level on every query
+- What's not solved yet is written down too, not just what is
+
+→ View Repository
 
 ## Tech Stack
 
@@ -109,18 +95,17 @@ GitHub Actions CI pipeline — all 39 tests run on every push to main
 |---|---|
 | Language | Java 23, Java 21, Java 17 |
 | Framework | Spring Boot 3.5, Spring Boot 3.4 |
-| Database | MariaDB, MySQL |
+| Frontend | React, Tailwind CSS |
+| Database | MySQL, MariaDB |
 | Cache | Redis |
 | Messaging | RabbitMQ |
 | Auth | Spring Security, JWT |
+| Payments | Stripe |
 | Build | Maven |
-| Deploy | Railway |
+| Deploy | Render, Vercel, Railway |
 | Desktop | Swing, JDBC |
-| Tools | Flyway, Lombok, Spring Actuator |
-| Testing | JUnits 5, Testcontainers |
+| Tools | Flyway, Lombok, Spring Actuator, Docker |
+| Testing | JUnit 5, Testcontainers |
 | CI | GitHub Actions |
 
----
-
-
-*Every repository has a README that explains the decisions. Every decision has a reason.*
+Every repository has a README that explains the decisions. Every decision has a reason, even if the reason is "I didn't have time and here's what that costs."
